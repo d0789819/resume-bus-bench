@@ -1,8 +1,8 @@
 # Bus Bench：ESP32 匯流排訊號品質測試台
 
-<img width="2500" height="1318" alt="bandicam 2026-11-20 16-09-07-869" src="https://github.com/user-attachments/assets/59cd8b9b-9b7d-45b2-a6c2-6d73633aff32" />
+<img width="2500" height="1318" alt="bandicam 2026-11-20 16-09-07-869" src="https://github.com/user-attachments/assets/b39259d5-6c7d-4f3b-af95-5dfd83170c4c" />
 
-<img width="2291" height="1423" alt="bandicam 2026-11-20 16-13-29-966" src="https://github.com/user-attachments/assets/b50ffcc5-dd1d-4541-bdf1-c02cf0da5dd6" />
+<img width="2291" height="1423" alt="bandicam 2026-11-20 16-13-29-966" src="https://github.com/user-attachments/assets/28d93d91-e79f-4cce-adaa-6a39252dbe87" />
 
 ESP32 依指令送出 UART / SPI / I2C 訊號 → 後端用 VISA 控制 Tektronix 示波器擷取波形 →
 計算頻率、上升 / 下降時間、過衝、工作週期等 → 依規格判定 PASS/FAIL → 存進 PostgreSQL →
