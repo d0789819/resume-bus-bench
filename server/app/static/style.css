@@ -1,0 +1,139 @@
+:root {
+  --bg: #f4f5f7;
+  --surface: #ffffff;
+  --border: #dfe2e7;
+  --text: #1c2026;
+  --muted: #667085;
+  --accent: #2563eb;
+  --accent-text: #ffffff;
+  --pass: #15803d;
+  --pass-bg: #e7f6ec;
+  --fail: #c62828;
+  --fail-bg: #fdecec;
+  --warn: #b45309;
+  --ch1: #b8930a;      /* Tek CH1 黃 */
+  --ch2: #0b8fb3;      /* Tek CH2 青 */
+  --grid: #e6e8ec;
+  --shadow: 0 1px 2px rgba(16, 24, 40, .06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1216;
+    --surface: #171b21;
+    --border: #2a3039;
+    --text: #e6e9ee;
+    --muted: #98a2b3;
+    --accent: #4f8cff;
+    --pass: #4ade80;
+    --pass-bg: #12301d;
+    --fail: #f87171;
+    --fail-bg: #3a1717;
+    --warn: #fbbf24;
+    --ch1: #f2d23c;
+    --ch2: #3fd0f2;
+    --grid: #252b33;
+    --shadow: none;
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.5 system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+}
+h2 { font-size: 15px; margin: 0; }
+h3 { font-size: 13px; margin: 20px 0 6px; color: var(--muted); font-weight: 600; }
+
+.top {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding: 10px 20px; background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 16px; }
+.brand small { color: var(--muted); font-weight: 400; font-size: 13px; }
+.logo { width: 22px; height: 22px; color: var(--accent); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; cursor: pointer; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--border); font-size: 12px; color: var(--muted); max-width: 360px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--muted); flex: none; }
+.chip.ok::before { background: var(--pass); }
+.chip.bad::before { background: var(--fail); }
+.chip.bad { color: var(--fail); }
+
+.layout {
+  display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 16px;
+  padding: 16px 20px; max-width: 1500px; margin: 0 auto;
+}
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; padding: 12px 16px; } }
+
+.panel, .card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px; box-shadow: var(--shadow);
+}
+.panel { align-self: start; position: sticky; top: 16px; }
+@media (max-width: 900px) { .panel { position: static; } }
+.panel label { display: block; margin-top: 12px; color: var(--muted); font-size: 13px; }
+.panel label > select, .panel label > input:not([type=checkbox]):not([type=radio]) { margin-top: 4px; }
+.panel fieldset { border: 1px solid var(--border); border-radius: 8px; margin: 12px 0 0; padding: 4px 10px 10px; }
+.panel legend { color: var(--muted); font-size: 13px; padding: 0 4px; }
+label.check { display: flex; align-items: center; gap: 6px; color: var(--text); }
+
+select, input, button {
+  font: inherit; color: var(--text); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 7px; padding: 7px 9px;
+}
+select, input:not([type=checkbox]):not([type=radio]) { width: 100%; }
+input.narrow { width: 90px !important; padding: 4px 6px; }
+input[type=checkbox], input[type=radio] { accent-color: var(--accent); }
+.row { display: flex; gap: 8px; align-items: center; }
+.row > * { min-width: 0; }
+.unit { color: var(--muted); }
+
+.buttons { display: flex; gap: 8px; margin-top: 18px; }
+.buttons button { flex: 1; cursor: pointer; font-weight: 600; }
+button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+button:disabled { opacity: .5; cursor: progress; }
+.btn-link { color: var(--accent); text-decoration: none; white-space: nowrap; font-size: 13px; }
+
+.msg { margin-top: 10px; font-size: 13px; min-height: 1em; }
+.msg.err { color: var(--fail); }
+.hint { color: var(--muted); font-size: 12px; margin: 4px 0 0; }
+
+.sweep { margin-top: 10px; font-size: 12px; color: var(--muted); }
+.progress { height: 6px; background: var(--grid); border-radius: 3px; overflow: hidden; margin-bottom: 4px; }
+.progress > div { height: 100%; width: 0; background: var(--accent); transition: width .3s; }
+
+.content { display: grid; gap: 16px; min-width: 0; }
+.card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
+.card-head select { width: auto; max-width: 60%; }
+.meta { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+.meta b { color: var(--text); font-weight: 600; }
+.meta .err { color: var(--fail); }
+.chart-box { position: relative; height: 300px; }
+
+.badge { font-weight: 700; font-size: 13px; padding: 2px 12px; border-radius: 999px; }
+.badge.PASS { color: var(--pass); background: var(--pass-bg); }
+.badge.FAIL { color: var(--fail); background: var(--fail-bg); }
+.badge.ERROR { color: var(--warn); border: 1px solid var(--warn); }
+
+.table-wrap { overflow-x: auto; }
+.table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+.table th, .table td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.table th { color: var(--muted); font-weight: 600; }
+.table td.num { font-variant-numeric: tabular-nums; text-align: right; }
+.table tr.group td { color: var(--muted); font-weight: 600; background: var(--bg); }
+.table.clickable tbody tr { cursor: pointer; }
+.table.clickable tbody tr:hover td { background: var(--bg); }
+.table tr.active td { background: var(--bg); }
+.pass { color: var(--pass); font-weight: 600; }
+.fail { color: var(--fail); font-weight: 600; }
+.src-scope { color: var(--muted); font-size: 12px; }
+
+.mini { width: 100%; border-collapse: collapse; font-size: 13px; }
+.mini td { padding: 3px 4px; border-bottom: 1px dashed var(--border); }
+.mini .swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }

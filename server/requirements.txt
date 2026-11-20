@@ -1,0 +1,9 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic-settings>=2.4
+psycopg[binary,pool]>=3.2
+httpx>=0.27
+numpy>=1.26
+pyvisa>=1.14
+pyvisa-py>=0.7
+pytest>=8.0

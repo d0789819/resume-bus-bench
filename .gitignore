@@ -1,0 +1,17 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 機密設定（由 .env.example 複製）
+.env
+firmware/src/secrets.h
+
+# PlatformIO 建置輸出
+.pio/
+firmware/.pio/
+.vscode/
+
+tools/bench/logs/
+.claude/

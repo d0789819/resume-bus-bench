@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bus Bench</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" class="logo" aria-hidden="true"><path d="M2 16h4V8h4v8h4V8h4v8h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      <span>Bus Bench</span><small>匯流排訊號品質測試台</small>
+    </div>
+    <div class="chips" id="chips" title="點一下重新檢查連線"></div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel">
+      <h2>測試設定</h2>
+      <label>協定
+        <select id="protocol">
+          <option value="uart">UART</option>
+          <option value="spi">SPI</option>
+          <option value="i2c">I2C</option>
+        </select>
+      </label>
+      <label>速度
+        <div class="row">
+          <select id="speedPreset"></select>
+          <input id="speed" type="number" min="1" step="1" aria-label="速度（Hz）">
+        </div>
+        <span class="hint" id="speedHint"></span>
+      </label>
+      <label>資料樣式
+        <select id="pattern">
+          <option value="0x55">0x55（方波）</option>
+          <option value="counter">遞增計數</option>
+          <option value="prbs7">PRBS7 亂數</option>
+        </select>
+      </label>
+      <label class="only-spi">SPI 模式
+        <select id="spiMode">
+          <option value="0">Mode 0（CPOL 0, CPHA 0）</option>
+          <option value="1">Mode 1（CPOL 0, CPHA 1）</option>
+          <option value="2">Mode 2（CPOL 1, CPHA 0）</option>
+          <option value="3">Mode 3（CPOL 1, CPHA 1）</option>
+        </select>
+      </label>
+      <fieldset class="only-i2c">
+        <legend>I2C 上拉電阻</legend>
+        <label class="check"><input type="radio" name="pullup" value="internal" checked> ESP32 內部（約 45 kΩ）</label>
+        <label class="check"><input type="radio" name="pullup" value="external"> 外接
+          <input id="pullupOhm" type="number" min="100" step="100" value="4700" class="narrow"> Ω</label>
+      </fieldset>
+      <label class="only-sim">匯流排電容（只影響模擬示波器）
+        <div class="row"><input id="busCap" type="number" min="1" max="1000" value="20"><span class="unit">pF</span></div>
+      </label>
+      <label class="check"><input type="checkbox" id="loopback"> 已接迴路線（比對回讀資料）</label>
+      <label>備註<input id="note" maxlength="500" placeholder="例如：外接 4.7k、探棒 10X"></label>
+
+      <div class="buttons">
+        <button id="btnRun" class="primary">執行單次測試</button>
+        <button id="btnSweep">速度掃描</button>
+      </div>
+      <div id="sweepBox" class="sweep" hidden>
+        <div class="progress"><div id="sweepBar"></div></div>
+        <span id="sweepText"></span>
+      </div>
+      <div id="msg" class="msg" role="status"></div>
+
+      <h3>探棒接線</h3>
+      <table id="wiring" class="mini"></table>
+      <p class="hint">探棒設 10X，接地夾接開發板 GND。</p>
+    </aside>
+
+    <section class="content">
+      <div class="card">
+        <div class="card-head">
+          <h2>測試結果</h2>
+          <span id="verdict" class="badge"></span>
+        </div>
+        <div id="runMeta" class="meta">尚未執行測試。</div>
+        <div class="chart-box"><canvas id="wave"></canvas></div>
+        <div class="table-wrap"><table id="measTable" class="table"></table></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>趨勢</h2>
+          <select id="trendMetric" aria-label="趨勢指標"></select>
+        </div>
+        <div class="chart-box"><canvas id="trend"></canvas></div>
+        <p class="hint" id="trendHint"></p>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>歷史紀錄</h2>
+          <div class="row">
+            <select id="histFilter" aria-label="篩選協定">
+              <option value="">全部協定</option>
+              <option value="uart">UART</option>
+              <option value="spi">SPI</option>
+              <option value="i2c">I2C</option>
+            </select>
+            <a id="csvLink" class="btn-link" href="/api/export.csv">匯出 CSV</a>
+          </div>
+        </div>
+        <div class="table-wrap"><table id="histTable" class="table clickable"></table></div>
+      </div>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
